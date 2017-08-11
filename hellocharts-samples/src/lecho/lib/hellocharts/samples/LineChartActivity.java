@@ -47,7 +47,7 @@ public class LineChartActivity extends ActionBarActivity {
         private LineChartData data;
         private int numberOfLines = 1;
         private int maxNumberOfLines = 4;
-        private int numberOfPoints = 12;
+        private int numberOfPoints = 12000;
 
         float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
@@ -212,16 +212,37 @@ public class LineChartActivity extends ActionBarActivity {
             resetViewport();
         }
 
+//        private void resetViewport() {
+//            // Reset viewport height range to (0,100)
+//            final Viewport v = new Viewport(chart.getMaximumViewport());
+//            v.bottom = 0;
+//            v.top = 100;
+//            v.left = 0;
+//            v.left = 100;
+//
+//            chart.setMaximumViewport(v);
+//            chart.setCurrentViewport(v);
+//        }
+
         private void resetViewport() {
             // Reset viewport height range to (0,100)
             final Viewport v = new Viewport(chart.getMaximumViewport());
             v.bottom = 0;
             v.top = 100;
+            //v.left = 0;
+            v.left = 100;
+            //v.right = (numberOfPoints - 1);
+            v.right = (numberOfPoints - 1)/10;//数据量非常大的时候通过限制最大这个区域
+            final Viewport v2 = new Viewport(chart.getMaximumViewport());
+            v2.bottom = 0;
+            v2.top = 100;
             v.left = 0;
-            v.right = numberOfPoints - 1;
+            v2.right = v.right/10;//通过设置setCurrentViewport 与 setMaximumViewport的比例就能实现滑动
             chart.setMaximumViewport(v);
-            chart.setCurrentViewport(v);
+            //chart.setCurrentViewport(v);
+            chart.setCurrentViewport(v2);
         }
+
 
         private void generateData() {
 
